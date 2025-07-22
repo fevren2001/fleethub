@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Garage } from '../../types/garage';
 import { getAllGarages } from '../../api/garages';
 import MainLayout from '../../components/common/MainLayout';
 
 const GaragesList: React.FC = () => {
-  const navigate = useNavigate();
   const [garages, setGarages] = useState<Garage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

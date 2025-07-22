@@ -11,11 +11,19 @@ export interface Truck {
   driver?: {
     id: number;
     name: string;
+    photoUrl?: string;
     // Add more fields if needed
   };
   createdAt: string; // String for frontend display
   updatedAt: string; // String for frontend display
   photoUrl?: string;
+}
+
+export interface Garage {
+  id: number;
+  city: string;
+  occupancy: number;
+  capacity: number;
 }
 
 // Form data interface for creating/updating trucks

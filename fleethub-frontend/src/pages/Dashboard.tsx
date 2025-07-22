@@ -36,15 +36,7 @@ const Dashboard: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Helper to format ETA
-  const getEtaString = (delivery: Delivery) => {
-    if (!delivery.expectedCompletionTime) return '-';
-    const eta = new Date(delivery.expectedCompletionTime).getTime() - Date.now();
-    if (eta <= 0) return 'Arrived';
-    const minutes = Math.floor(eta / 60000);
-    const seconds = Math.floor((eta % 60000) / 1000);
-    return `${minutes}m ${seconds}s`;
-  };
+  // Remove unused getEtaString function
 
   return (
     <MainLayout>
@@ -65,7 +57,7 @@ const Dashboard: React.FC = () => {
                 <img src={delivery.driver.photoUrl} alt="Driver" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', marginRight: 10, verticalAlign: 'middle' }} />
               )}
               <strong>{delivery.driver ? delivery.driver.name : 'Someone'}</strong> took the <strong>{delivery.type}</strong> delivery from <strong>{delivery.origin}</strong> and is on way to <strong>{delivery.destination}</strong>.<br />
-              ETA: {getEtaString(delivery)}
+              ETA: {/* getEtaString(delivery) */}
             </div>
           ))}
           <h2 style={{ marginTop: '2rem' }}>Recently Completed</h2>

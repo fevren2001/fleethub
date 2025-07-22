@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Garage, GarageFormData, GarageStatus } from '../../types/garage';
+import { Garage, GarageFormData } from '../../types/garage';
 import { getSupportedCities } from '../../api/garages';
 
 interface GarageFormProps {
@@ -10,11 +10,11 @@ interface GarageFormProps {
 
 const GarageForm: React.FC<GarageFormProps> = ({ initialData = {}, onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState<GarageFormData>({
-    // name: initialData.name || '', // Remove name
     location: initialData.location || '',
     capacity: initialData.capacity || 10,
     status: initialData.status || 'active',
-    occupancy: initialData.occupancy || 0
+    occupancy: initialData.occupancy || 0,
+    city: initialData.city || initialData.location || '',
   });
   const [cities, setCities] = useState<{ name: string }[]>([]);
   React.useEffect(() => {
@@ -22,7 +22,7 @@ const GarageForm: React.FC<GarageFormProps> = ({ initialData = {}, onSubmit, isS
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     
     if (name === 'capacity' || name === 'occupancy') {
       setFormData(prev => ({ ...prev, [name]: Number(value) }));

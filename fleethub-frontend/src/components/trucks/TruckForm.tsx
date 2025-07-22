@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Truck, CreateTruckPayload, UpdateTruckPayload, TruckStatus } from '../../types/truck';
+import { Truck } from '../../types/truck';
 import { getAllGarages } from '../../api/garages';
 import { getAllDrivers } from '../../api/drivers';
 
 interface Garage {
   id: number;
-  name: string;
   city: string;
+  occupancy: number;
+  capacity: number;
 }
 
 interface Driver {
@@ -16,7 +17,7 @@ interface Driver {
 
 interface TruckFormProps {
   initialData?: Partial<Truck>;
-  onSubmit: (data: CreateTruckPayload | UpdateTruckPayload) => void;
+  onSubmit: (data: any) => void; // Changed to any as CreateTruckPayload and UpdateTruckPayload are removed
   isSubmitting: boolean;
 }
 
@@ -30,7 +31,7 @@ const TRUCK_PHOTOS = [
 const TruckForm: React.FC<TruckFormProps> = ({ initialData = {}, onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState({
     model: initialData.model || '',
-    status: initialData.status || 'idle' as TruckStatus,
+    status: initialData.status || 'idle',
     fuel: initialData.fuel || 100,
     condition: initialData.condition || 100,
     garageId: initialData.garageId || null as number | null,
@@ -83,7 +84,7 @@ const TruckForm: React.FC<TruckFormProps> = ({ initialData = {}, onSubmit, isSub
     }
     if (initialData.id) {
       // Edit mode
-      const updatePayload: UpdateTruckPayload = {
+      const updatePayload = {
         model: formData.model,
         status: formData.status,
         fuel: formData.fuel,
@@ -95,7 +96,7 @@ const TruckForm: React.FC<TruckFormProps> = ({ initialData = {}, onSubmit, isSub
       onSubmit(updatePayload);
     } else {
       // Create mode
-      const createPayload: CreateTruckPayload = {
+      const createPayload = {
         model: formData.model,
         garageId: formData.garageId,
         photoUrl: formData.photoUrl,

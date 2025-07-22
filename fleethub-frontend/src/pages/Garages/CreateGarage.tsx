@@ -15,7 +15,7 @@ const CreateGarage: React.FC = () => {
     setError(null);
     
     try {
-      await createGarage(data);
+      await createGarage({ ...data, city: data.city || data.location });
       navigate('/garages');
     } catch (err) {
       console.error('Failed to create garage:', err);

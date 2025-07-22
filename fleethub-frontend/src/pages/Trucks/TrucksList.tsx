@@ -99,7 +99,7 @@ const TrucksList: React.FC = () => {
                 />
                 {/* Removed truck model/name and status badge */}
                 <div style={{ marginBottom: 8, color: '#555' }}>
-                  <strong>Garage:</strong> {truck.garage ? truck.garage.name || truck.garage.city : '-'}
+                  <strong>Garage:</strong> {truck.garageId ? truck.garageId : '-'}
                 </div>
                 <div style={{ marginBottom: 8, color: '#555', display: 'flex', alignItems: 'center' }}>
                   <strong>Driver:</strong>&nbsp;
