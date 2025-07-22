@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://fleethub-eswn.onrender.com', // adjust to your backend URL
+  baseURL: 'http://localhost:5000', // adjust to your backend URL
   headers: {
     'Content-Type': 'application/json',
   },
