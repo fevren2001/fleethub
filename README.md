@@ -1,6 +1,7 @@
 
 ## Getting Started
-
+If you want to directly test the app without installing in your system, USE THIS DEPLOYED VERSION HERE:
+https://fleethub-fatihs-projects-53bc0545.vercel.app/
 ### Prerequisites
 
 - Node.js (v18+ recommended)
