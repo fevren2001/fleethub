@@ -1,0 +1,29 @@
+import { Request, Response } from "express";
+import * as garageService from "../services/garageService";
+import { AuthRequest } from "../middlewares/authMiddleware";
+
+/** GET /garages */
+export async function getGarages(req: AuthRequest, res: Response) {
+  try {
+    const userId = req.user!.userId;
+    const garages = await garageService.getAllGarages(userId);
+    res.json(garages);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+/** POST /garages */
+export async function addGarage(req: AuthRequest, res: Response) {
+  console.log("adding garage", req.body);
+  try {
+    const userId = req.user!.userId;
+    const { size, cityId } = req.body;
+    const newGarage = await garageService.createGarage(userId, { size, cityId });
+    res.status(201).json(newGarage);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+}
+
+

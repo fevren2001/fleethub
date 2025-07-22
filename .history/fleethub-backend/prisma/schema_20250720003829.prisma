@@ -1,0 +1,85 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+#
+model User {
+  id           Int        @id @default(autoincrement())
+  email        String     @unique
+  passwordHash String
+  role         String     @default("USER")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  trucks       Truck[]
+  garages      Garage[]
+  drivers      Driver[]
+  deliveries   Delivery[]
+}
+
+model Truck {
+  id        Int        @id @default(autoincrement())
+  model     String
+  status    String     @default("idle") // e.g. idle, en route, maintenance
+  fuel      Int        @default(100) // percentage
+  condition Int        @default(100) // percentage
+  user      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  garage    Garage?    @relation(fields: [garageId], references: [id])
+  garageId  Int?
+  driver    Driver?    @relation(fields: [driverId], references: [id])
+  driverId  Int?
+  photoUrl  String? // path to truck photo
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Delivery  Delivery[]
+}
+
+model Garage {
+  id        Int      @id @default(autoincrement())
+  city      String
+  capacity  Int
+  level     Int      @default(1)
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  trucks    Truck[]
+  createdAt DateTime @default(now())
+}
+
+model Driver {
+  id        Int        @id @default(autoincrement())
+  name      String
+  skill     Int        @default(1) // skill level
+  user      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  trucks    Truck[] // back-relation: one driver can have many trucks
+  photoUrl  String? // path to driver photo
+  createdAt DateTime   @default(now())
+  Delivery  Delivery[]
+  status    String     @default("pending") // pending, in_progress, completed
+}
+
+model Delivery {
+  id                     Int       @id @default(autoincrement())
+  origin                 String
+  destination            String
+  distanceKm             Int
+  status                 String    @default("pending") // pending, in_progress, completed
+  type                   String    @default("General") // delivery type: Cars, Steel, etc.
+  truck                  Truck?    @relation(fields: [truckId], references: [id])
+  truckId                Int?
+  driver                 Driver?   @relation(fields: [driverId], references: [id])
+  driverId               Int?
+  user                   User      @relation(fields: [userId], references: [id])
+  userId                 Int
+  durationMinutes        Float? // Estimated delivery duration in minutes
+  startedAt              DateTime? // When the delivery was started
+  expectedCompletionTime DateTime? // Expected completion time
+  completedAt            DateTime? // When the delivery was completed
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
